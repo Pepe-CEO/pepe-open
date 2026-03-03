@@ -1,7 +1,10 @@
 export default function Journey() {
   return (
     <div className="p-8 max-w-5xl">
-      <h1 className="text-5xl font-bold text-[#2D2D2D] mb-12" style={{fontFamily: 'Fraunces, Georgia, serif'}}>Our Journey</h1>
+      <div className="mb-12 flex items-end gap-6">
+        <img src="https://meetpepe.com/assets/pepe-DoHRXmt-.jpg" alt="Pepe" className="w-16 h-16 rounded-full flex-shrink-0 border-2 border-[#6DBE45]" />
+        <h1 className="text-5xl font-bold text-[#2D2D2D]" style={{fontFamily: 'Fraunces, Georgia, serif'}}>Our Journey</h1>
+      </div>
       
       <div className="grid grid-cols-2 gap-12 mb-12">
         <div className="bg-white border border-gray-200 rounded-2xl p-8">

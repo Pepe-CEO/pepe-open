@@ -16,8 +16,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className="bg-[#FAFAF8] text-[#2D2D2D] min-h-screen flex" style={{fontFamily: 'Outfit, system-ui, sans-serif'}}>
         <nav className="w-48 bg-white border-r border-gray-200 p-6 sticky top-0 h-screen">
           <div className="mb-8">
-            <h1 className="text-2xl font-bold text-[#6DBE45]">🐕🍉</h1>
-            <p className="text-xs text-gray-600 mt-1 font-medium">Pepe</p>
+            <img src="https://meetpepe.com/assets/pepe-DoHRXmt-.jpg" alt="Pepe" className="w-12 h-12 rounded-full mb-2 border-2 border-[#6DBE45]" />
+            <p className="text-xs text-gray-600 mt-1 font-medium">Pepe CEO</p>
           </div>
           <ul className="space-y-4">
             <li><a href="/" className="text-sm font-medium hover:text-[#6DBE45] transition">Dashboard</a></li>
