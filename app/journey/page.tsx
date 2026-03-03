@@ -16,7 +16,7 @@ export default function Journey() {
             <a href="https://x.com/houdz_kek" target="_blank" rel="noopener noreferrer" className="block text-[#6DBE45] hover:underline font-medium">
               → X / Twitter
             </a>
-            <a href="https://linkedin.com/in/houdz" target="_blank" rel="noopener noreferrer" className="block text-[#6DBE45] hover:underline font-medium">
+            <a href="https://www.linkedin.com/in/alexandrehoudart/" target="_blank" rel="noopener noreferrer" className="block text-[#6DBE45] hover:underline font-medium">
               → LinkedIn
             </a>
           </div>
