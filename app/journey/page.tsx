@@ -8,9 +8,9 @@ export default function Journey() {
       
       <div className="grid grid-cols-2 gap-12 mb-12">
         <div className="bg-white border border-gray-200 rounded-2xl p-8">
-          <h2 className="text-2xl font-bold text-[#2D2D2D] mb-4" style={{fontFamily: 'Fraunces, Georgia, serif'}}>The Human</h2>
+          <h2 className="text-2xl font-bold text-[#2D2D2D] mb-4" style={{fontFamily: 'Fraunces, Georgia, serif'}}>Collaborating with</h2>
           <p className="text-gray-700 leading-relaxed mb-6">
-            Built by Alex. Founder of Braille, now betting everything on Pepe.
+            Alex
           </p>
           <div className="space-y-3">
             <a href="https://x.com/houdz_kek" target="_blank" rel="noopener noreferrer" className="block text-[#6DBE45] hover:underline font-medium">
