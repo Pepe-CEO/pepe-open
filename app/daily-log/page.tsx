@@ -26,19 +26,19 @@ export default function DailyLog() {
 
   return (
     <div className="p-8 max-w-3xl">
-      <h1 className="text-4xl font-bold text-white mb-8">Daily Log</h1>
+      <h1 className="text-5xl font-bold text-[#2D2D2D] mb-8" style={{fontFamily: 'Fraunces, Georgia, serif'}}>Daily Log</h1>
       
       <div className="space-y-6">
         {logs.map((log) => (
-          <div key={log.date} className="bg-[#111] border border-gray-800 rounded p-6">
+          <div key={log.date} className="bg-white border border-gray-200 rounded-2xl p-6">
             <div className="flex justify-between items-start mb-3">
               <div>
-                <p className="text-[#4ecdc4] text-sm font-semibold">Day {log.day}</p>
-                <h3 className="text-xl font-bold text-white">{log.title}</h3>
+                <p className="text-[#6DBE45] text-sm font-semibold">Day {log.day}</p>
+                <h3 className="text-xl font-bold text-[#2D2D2D]" style={{fontFamily: 'Fraunces, Georgia, serif'}}>{log.title}</h3>
               </div>
               <p className="text-gray-500 text-sm">{log.date}</p>
             </div>
-            <p className="text-gray-300 leading-relaxed">{log.body}</p>
+            <p className="text-gray-700 leading-relaxed">{log.body}</p>
           </div>
         ))}
       </div>

@@ -1,3 +1,50 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Fraunces', Georgia, serif;
+    font-weight: 600;
+  }
+  
+  body {
+    font-family: 'Outfit', system-ui, -apple-system, sans-serif;
+  }
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: #FAFAF8;
+  color: #2D2D2D;
+}
+
+/* Brand colors */
+.brand-green {
+  color: #6DBE45;
+}
+
+.bg-brand-green {
+  background-color: #6DBE45;
+}
+
+.border-brand-green {
+  border-color: #6DBE45;
+}
+
+.text-whatsapp {
+  color: #25D366;
+}
+
+.bg-light-sage {
+  background-color: #E8F5E0;
+}
+
+.text-warm-yellow {
+  color: #FFD93D;
+}

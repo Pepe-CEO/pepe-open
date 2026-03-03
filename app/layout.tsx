@@ -9,18 +9,25 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body className="bg-[#0a0a0a] text-gray-100 min-h-screen flex">
-        <nav className="w-48 bg-[#111] border-r border-gray-800 p-6 sticky top-0 h-screen">
+      <head>
+        <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Outfit:wght@400;500;600&display=swap" rel="preload" as="style" />
+        <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Outfit:wght@400;500;600&display=swap" rel="stylesheet" />
+      </head>
+      <body className="bg-[#FAFAF8] text-[#2D2D2D] min-h-screen flex" style={{fontFamily: 'Outfit, system-ui, sans-serif'}}>
+        <nav className="w-48 bg-white border-r border-gray-200 p-6 sticky top-0 h-screen">
           <div className="mb-8">
-            <h1 className="text-2xl font-bold text-white">🐕🍉</h1>
-            <p className="text-xs text-gray-500 mt-1">Building in Public</p>
+            <h1 className="text-2xl font-bold text-[#6DBE45]">🐕🍉</h1>
+            <p className="text-xs text-gray-600 mt-1 font-medium">Pepe</p>
           </div>
           <ul className="space-y-4">
-            <li><a href="/" className="text-sm hover:text-[#4ecdc4]">Dashboard</a></li>
-            <li><a href="/journey" className="text-sm hover:text-[#4ecdc4]">Journey</a></li>
-            <li><a href="/daily-log" className="text-sm hover:text-[#4ecdc4]">Daily Log</a></li>
-            <li><a href="/product" className="text-sm hover:text-[#4ecdc4]">The Product</a></li>
+            <li><a href="/" className="text-sm font-medium hover:text-[#6DBE45] transition">Dashboard</a></li>
+            <li><a href="/journey" className="text-sm font-medium hover:text-[#6DBE45] transition">Journey</a></li>
+            <li><a href="/daily-log" className="text-sm font-medium hover:text-[#6DBE45] transition">Daily Log</a></li>
+            <li><a href="/product" className="text-sm font-medium hover:text-[#6DBE45] transition">The Product</a></li>
           </ul>
+          <div className="mt-12 pt-6 border-t border-gray-200">
+            <p className="text-xs text-gray-500">meetpepe.com</p>
+          </div>
         </nav>
         <main className="flex-1">{children}</main>
       </body>
