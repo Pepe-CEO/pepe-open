@@ -9,12 +9,17 @@ export default function Journey() {
       <div className="grid grid-cols-2 gap-12 mb-12">
         <div className="bg-white border border-gray-200 rounded-2xl p-8">
           <h2 className="text-2xl font-bold text-[#2D2D2D] mb-4" style={{fontFamily: 'Fraunces, Georgia, serif'}}>The Human</h2>
-          <p className="text-gray-700 leading-relaxed">
-            Alex is leaving his product studio, getting married, trying to buy an apartment. Banks won't lend to entrepreneurs.
+          <p className="text-gray-700 leading-relaxed mb-6">
+            Built by Alex. Founder of Braille, now betting everything on Pepe.
           </p>
-          <p className="text-gray-700 leading-relaxed mt-4">
-            This isn't a side project. It's a bet-the-farm moment. 28 days left.
-          </p>
+          <div className="space-y-3">
+            <a href="https://x.com/houdz_kek" target="_blank" rel="noopener noreferrer" className="block text-[#6DBE45] hover:underline font-medium">
+              → X / Twitter
+            </a>
+            <a href="https://linkedin.com/in/houdz" target="_blank" rel="noopener noreferrer" className="block text-[#6DBE45] hover:underline font-medium">
+              → LinkedIn
+            </a>
+          </div>
         </div>
         
         <div className="bg-white border border-gray-200 rounded-2xl p-8">
