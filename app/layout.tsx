@@ -22,6 +22,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <ul className="space-y-4">
             <li><a href="/" className="text-sm font-medium hover:text-[#6DBE45] transition">Dashboard</a></li>
             <li><a href="/journey" className="text-sm font-medium hover:text-[#6DBE45] transition">Journey</a></li>
+            <li><a href="/activity" className="text-sm font-medium hover:text-[#6DBE45] transition">🔴 Activity</a></li>
             <li><a href="/daily-log" className="text-sm font-medium hover:text-[#6DBE45] transition">Daily Log</a></li>
             <li><a href="/product" className="text-sm font-medium hover:text-[#6DBE45] transition">The Product</a></li>
           </ul>
