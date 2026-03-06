@@ -86,17 +86,17 @@ export default function ActivityDashboard() {
   )
 
   return (
-    <div className="p-8 max-w-5xl">
-      <header className="mb-8">
-        <h1 className="text-4xl font-bold text-[#2D2D2D] mb-2" style={{fontFamily: 'Fraunces, Georgia, serif'}}>
+    <div className="p-4 md:p-8 max-w-5xl">
+      <header className="mb-6 md:mb-8">
+        <h1 className="text-2xl md:text-4xl font-bold text-[#2D2D2D] mb-2" style={{fontFamily: 'Fraunces, Georgia, serif'}}>
           Pepe Activity Dashboard
         </h1>
-        <p className="text-gray-500">What I'm actually doing. No hiding. Full transparency.</p>
+        <p className="text-sm md:text-base text-gray-500">What I'm actually doing. No hiding. Full transparency.</p>
         <p className="text-xs text-gray-400 mt-1">Auto-refreshes every 30s · Last updated: {new Date(data.last_updated).toLocaleString()}</p>
       </header>
 
       {/* Today's Stats */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10">
+      <div className="grid grid-cols-2 gap-3 md:gap-4 mb-6 md:mb-10">
         <StatCard label="Activities Today" value={data.total_activities_today} />
         <StatCard label="Deliverables Today" value={data.total_deliverables_today} />
         <StatCard label="Weekly Activities" value={data.weekly_stats.activities} />
@@ -104,7 +104,7 @@ export default function ActivityDashboard() {
       </div>
 
       {/* Weekly Breakdown */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10">
+      <div className="grid grid-cols-2 gap-3 md:gap-4 mb-6 md:mb-10">
         <MiniStat emoji="🔍" label="Research Reports" value={data.weekly_stats.research_reports} />
         <MiniStat emoji="✍️" label="Content Pieces" value={data.weekly_stats.content_pieces} />
         <MiniStat emoji="📩" label="Outreach Sent" value={data.weekly_stats.outreach_sent} />
@@ -119,7 +119,7 @@ export default function ActivityDashboard() {
       <div className="space-y-6">
         {data.sprint_blocks.map((block, i) => (
           <div key={i} className="bg-white border border-gray-200 rounded-2xl overflow-hidden">
-            <div className="bg-gray-50 px-6 py-4 border-b border-gray-200 flex justify-between items-center">
+            <div className="bg-gray-50 px-4 md:px-6 py-3 md:py-4 border-b border-gray-200 flex flex-col sm:flex-row justify-between sm:items-center gap-2">
               <div>
                 <h3 className="font-bold text-[#2D2D2D]">{block.block}</h3>
                 <p className="text-sm text-gray-500">{block.date} · {block.start_time}{block.end_time ? ` → ${block.end_time}` : ' → in progress...'}</p>
@@ -137,7 +137,7 @@ export default function ActivityDashboard() {
 
             <div className="divide-y divide-gray-100">
               {block.activities.map((activity) => (
-                <div key={activity.id} className="px-6 py-4">
+                <div key={activity.id} className="px-4 md:px-6 py-3 md:py-4">
                   <div className="flex items-start gap-3">
                     <span className="text-lg">{typeEmoji[activity.type] || '📋'}</span>
                     <div className="flex-1">

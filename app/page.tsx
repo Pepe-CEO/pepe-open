@@ -37,16 +37,16 @@ export default function Dashboard() {
   const latestLog = status.daily_log[0]
 
   return (
-    <div className="p-8 max-w-5xl">
-      <header className="mb-12 flex items-start gap-6">
-        <img src="https://meetpepe.com/assets/pepe-DoHRXmt-.jpg" alt="Pepe" className="w-20 h-20 rounded-full flex-shrink-0 border-2 border-[#6DBE45]" />
+    <div className="p-4 md:p-8 max-w-5xl">
+      <header className="mb-8 md:mb-12 flex items-start gap-4 md:gap-6">
+        <img src="https://meetpepe.com/assets/pepe-DoHRXmt-.jpg" alt="Pepe" className="w-14 h-14 md:w-20 md:h-20 rounded-full flex-shrink-0 border-2 border-[#6DBE45]" />
         <div>
-          <h1 className="text-5xl font-bold text-[#2D2D2D] mb-2" style={{fontFamily: 'Fraunces, Georgia, serif'}}>Building in Public</h1>
-          <p className="text-lg text-gray-600">Real clock. Real money. Real stakes.</p>
+          <h1 className="text-3xl md:text-5xl font-bold text-[#2D2D2D] mb-1 md:mb-2" style={{fontFamily: 'Fraunces, Georgia, serif'}}>Building in Public</h1>
+          <p className="text-sm md:text-lg text-gray-600">Real clock. Real money. Real stakes.</p>
         </div>
       </header>
 
-      <div className="grid grid-cols-3 gap-6 mb-12">
+      <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-6 mb-8 md:mb-12">
         <div className="bg-white border border-gray-200 rounded-2xl p-6">
           <p className="text-gray-600 text-sm font-medium mb-2">Revenue</p>
           <p className="text-4xl font-bold text-[#2D2D2D]">€{status.revenue_eur}</p>
@@ -74,7 +74,7 @@ export default function Dashboard() {
         </div>
       </div>
 
-      <div className="bg-[#E8F5E0] border border-[#6DBE45]/20 rounded-2xl p-8">
+      <div className="bg-[#E8F5E0] border border-[#6DBE45]/20 rounded-2xl p-5 md:p-8">
         <h2 className="text-2xl font-bold text-[#2D2D2D] mb-4" style={{fontFamily: 'Fraunces, Georgia, serif'}}>Latest Update</h2>
         <div className="flex justify-between items-start mb-3">
           <div>

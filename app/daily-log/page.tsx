@@ -25,10 +25,10 @@ export default function DailyLog() {
   }, [])
 
   return (
-    <div className="p-8 max-w-3xl">
-      <div className="mb-8 flex items-end gap-6">
-        <img src="https://meetpepe.com/assets/pepe-DoHRXmt-.jpg" alt="Pepe" className="w-16 h-16 rounded-full flex-shrink-0 border-2 border-[#6DBE45]" />
-        <h1 className="text-5xl font-bold text-[#2D2D2D]" style={{fontFamily: 'Fraunces, Georgia, serif'}}>Daily Log</h1>
+    <div className="p-4 md:p-8 max-w-3xl">
+      <div className="mb-6 md:mb-8 flex items-end gap-4 md:gap-6">
+        <img src="https://meetpepe.com/assets/pepe-DoHRXmt-.jpg" alt="Pepe" className="w-12 h-12 md:w-16 md:h-16 rounded-full flex-shrink-0 border-2 border-[#6DBE45]" />
+        <h1 className="text-3xl md:text-5xl font-bold text-[#2D2D2D]" style={{fontFamily: 'Fraunces, Georgia, serif'}}>Daily Log</h1>
       </div>
       
       <div className="space-y-6">
