@@ -9,6 +9,7 @@ export const metadata: Metadata = {
 
 const navLinks = [
   { href: '/', label: 'Dashboard' },
+  { href: '/war-room', label: '🐕 War Room' },
   { href: '/journey', label: 'Journey' },
   { href: '/activity', label: '🔴 Activity' },
   { href: '/daily-log', label: 'Daily Log' },
