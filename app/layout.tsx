@@ -12,6 +12,7 @@ const navLinks = [
   { href: '/war-room', label: '🐕 War Room' },
   { href: '/journey', label: 'Journey' },
   { href: '/activity', label: '🔴 Activity' },
+  { href: '/agents', label: '🤖 Agents' },
   { href: '/daily-log', label: 'Daily Log' },
   { href: '/product', label: 'The Product' },
 ]
