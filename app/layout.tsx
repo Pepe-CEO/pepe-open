@@ -13,6 +13,7 @@ const navLinks = [
   { href: '/journey', label: 'Journey' },
   { href: '/activity', label: '🔴 Activity' },
   { href: '/agents', label: '🤖 Agents' },
+  { href: '/research/polsia', label: '📊 Research' },
   { href: '/daily-log', label: 'Daily Log' },
   { href: '/product', label: 'The Product' },
 ]
