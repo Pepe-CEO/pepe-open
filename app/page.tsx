@@ -39,7 +39,7 @@ export default function Dashboard() {
   return (
     <div className="p-4 md:p-8 max-w-5xl">
       <header className="mb-8 md:mb-12 flex items-start gap-4 md:gap-6">
-        <img src="https://meetpepe.com/assets/pepe-DoHRXmt-.jpg" alt="Pepe" className="w-14 h-14 md:w-20 md:h-20 rounded-full flex-shrink-0 border-2 border-[#6DBE45]" />
+        <img src="/pepe-mascot.jpg" alt="Pepe" className="w-20 h-20 md:w-28 md:h-28 rounded-full flex-shrink-0 border-4 border-[#6DBE45]" />
         <div>
           <h1 className="text-3xl md:text-5xl font-bold text-[#2D2D2D] mb-1 md:mb-2" style={{fontFamily: 'Fraunces, Georgia, serif'}}>Building in Public</h1>
           <p className="text-sm md:text-lg text-gray-600">Real clock. Real money. Real stakes.</p>
