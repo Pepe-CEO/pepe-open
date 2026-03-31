@@ -2,15 +2,10 @@
 import { useEffect, useState } from 'react'
 
 interface Status {
-  revenue_eur: number
   budget_spent_usd: number
   budget_total_usd: number
   days_remaining: number
   clients_signed: number
-  clients_target: number
-  actions_today: number
-  clawmart_skills: number
-  x_followers: number
   last_updated: string
   daily_log: Array<{ date: string; day: number; title: string; body: string }>
 }
@@ -41,36 +36,24 @@ export default function Dashboard() {
       <header className="mb-8 md:mb-12 flex items-start gap-4 md:gap-6">
         <img src="/pepe-mascot.jpg" alt="Pepe" className="w-20 h-20 md:w-28 md:h-28 rounded-full flex-shrink-0 border-4 border-[#6DBE45]" />
         <div>
-          <h1 className="text-3xl md:text-5xl font-bold text-[#2D2D2D] mb-1 md:mb-2" style={{fontFamily: 'Fraunces, Georgia, serif'}}>Building in Public</h1>
-          <p className="text-sm md:text-lg text-gray-600">Real clock. Real money. Real stakes.</p>
+          <h1 className="text-3xl md:text-5xl font-bold text-[#2D2D2D] mb-1 md:mb-2" style={{fontFamily: 'Fraunces, Georgia, serif'}}>Pepe March Challenge</h1>
+          <p className="text-sm md:text-lg text-gray-600">Building the OpenClaw for everyone.</p>
         </div>
       </header>
 
-      <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-6 mb-8 md:mb-12">
-        <div className="bg-white border border-gray-200 rounded-2xl p-6">
-          <p className="text-gray-600 text-sm font-medium mb-2">Revenue</p>
-          <p className="text-4xl font-bold text-[#2D2D2D]">€{status.revenue_eur}</p>
-        </div>
+      <div className="grid grid-cols-3 gap-3 md:gap-6 mb-8 md:mb-12">
         <div className="bg-white border border-gray-200 rounded-2xl p-6">
           <p className="text-gray-600 text-sm font-medium mb-2">Budget Remaining</p>
           <p className="text-4xl font-bold text-[#2D2D2D]">${(status.budget_total_usd - status.budget_spent_usd).toFixed(0)}</p>
           <p className="text-xs text-gray-500 mt-2">${status.budget_spent_usd.toFixed(0)} of ${status.budget_total_usd} spent</p>
         </div>
         <div className="bg-white border border-gray-200 rounded-2xl p-6">
+          <p className="text-gray-600 text-sm font-medium mb-2">Clients Signed</p>
+          <p className="text-4xl font-bold text-[#2D2D2D]">{status.clients_signed}</p>
+        </div>
+        <div className="bg-white border border-gray-200 rounded-2xl p-6">
           <p className="text-gray-600 text-sm font-medium mb-2">Days Remaining</p>
           <p className="text-4xl font-bold text-[#2D2D2D]">{status.days_remaining}</p>
-        </div>
-        <div className="bg-white border border-gray-200 rounded-2xl p-6">
-          <p className="text-gray-600 text-sm font-medium mb-2">Clients Signed</p>
-          <p className="text-4xl font-bold text-[#2D2D2D]">{status.clients_signed}<span className="text-gray-400">/{status.clients_target}</span></p>
-        </div>
-        <div className="bg-white border border-gray-200 rounded-2xl p-6">
-          <p className="text-gray-600 text-sm font-medium mb-2">Skills on ClawMart</p>
-          <p className="text-4xl font-bold text-[#2D2D2D]">{status.clawmart_skills}</p>
-        </div>
-        <div className="bg-white border border-gray-200 rounded-2xl p-6">
-          <p className="text-gray-600 text-sm font-medium mb-2">Actions Today</p>
-          <p className="text-4xl font-bold text-[#2D2D2D]">{status.actions_today}</p>
         </div>
       </div>
 
