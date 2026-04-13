@@ -95,6 +95,44 @@ function stageLabel(count: number, total: number) {
   return `${count} · ${pct(count, total)}`
 }
 
+function StepDigestCard({
+  title,
+  count,
+  total,
+  items,
+}: {
+  title: string
+  count: number
+  total: number
+  items: Drop[]
+}) {
+  return (
+    <div className="rounded-[28px] border border-gray-200 bg-white p-5 shadow-sm md:p-6">
+      <p className="text-sm font-medium text-gray-500">{title}</p>
+      <p className="mt-2 text-3xl font-bold text-[#2D2D2D]">{count}</p>
+      <p className="mt-1 text-xs text-gray-500">{pct(count, total)} of leads</p>
+
+      <div className="mt-4 space-y-2">
+        {items.length === 0 ? (
+          <div className="rounded-2xl border border-gray-100 bg-gray-50 px-4 py-3 text-sm text-gray-500">
+            No drop-off recorded at this step.
+          </div>
+        ) : (
+          items.map((item) => (
+            <div key={item.label} className="flex items-center justify-between rounded-2xl border border-gray-100 bg-[#FAFAF8] px-4 py-3">
+              <div>
+                <p className="text-sm font-medium text-[#2D2D2D]">{item.label}</p>
+                <p className="text-xs text-gray-500">{pct(item.count, total)} of leads</p>
+              </div>
+              <p className="text-xl font-bold text-[#2D2D2D]">{item.count}</p>
+            </div>
+          ))
+        )}
+      </div>
+    </div>
+  )
+}
+
 export default function BrandTrackPage() {
   const [selected, setSelected] = useState<'all' | 'coffee' | 'gym'>('all')
   const track = TRACKS[selected]
@@ -194,7 +232,7 @@ export default function BrandTrackPage() {
                 {track.label} Sankey
               </h2>
               <p className="mt-1 text-sm text-gray-600 md:text-base">
-                Blue flow means the sequence continued. Green is the final tail. Amber and red are technical and reply drop-offs.
+                Everything important is visible on the page now. Hover is extra, not required.
               </p>
             </div>
             <div className="flex flex-wrap gap-2 text-xs text-gray-500">
@@ -205,7 +243,7 @@ export default function BrandTrackPage() {
                 <span className="h-2.5 w-2.5 rounded-full bg-[#6DBE45]" /> reached last sequence with no answer
               </span>
               <span className="inline-flex items-center gap-2 rounded-full border border-gray-200 px-3 py-1.5 bg-[#FFF7F7]">
-                <span className="h-2.5 w-2.5 rounded-full bg-rose-400" /> replied no / exited
+                <span className="h-2.5 w-2.5 rounded-full bg-rose-400" /> exited flow
               </span>
             </div>
           </div>
@@ -221,6 +259,7 @@ export default function BrandTrackPage() {
               nodeThickness={22}
               nodeSpacing={24}
               nodeBorderWidth={0}
+              label="label"
               labelPosition="outside"
               labelOrientation="horizontal"
               labelPadding={18}
@@ -265,6 +304,40 @@ export default function BrandTrackPage() {
                 </div>
               )}
             />
+          </div>
+
+          <div className="mt-6 grid gap-4 xl:grid-cols-4">
+            <StepDigestCard title="Email 1 sent" count={track.e1} total={track.total} items={track.drop1} />
+            <StepDigestCard title="Email 2 sent" count={track.e2} total={track.total} items={track.drop2} />
+            <StepDigestCard title="Email 3 sent" count={track.e3} total={track.total} items={track.drop3} />
+            <div className="rounded-[28px] border border-gray-200 bg-[#E8F5E0] p-5 shadow-sm md:p-6">
+              <p className="text-sm font-medium text-gray-600">Final digest</p>
+              <p className="mt-2 text-3xl font-bold text-[#2D2D2D]">{track.tail}</p>
+              <p className="mt-1 text-xs text-gray-600">Reached the last sequence with no answer, {pct(track.tail, track.total)} of leads.</p>
+              <div className="mt-4 space-y-2">
+                <div className="flex items-center justify-between rounded-2xl border border-[#6DBE45]/20 bg-white/70 px-4 py-3">
+                  <div>
+                    <p className="text-sm font-medium text-[#2D2D2D]">Yes replies</p>
+                    <p className="text-xs text-gray-500">Actual interested replies</p>
+                  </div>
+                  <p className="text-xl font-bold text-[#2D2D2D]">{track.yes}</p>
+                </div>
+                <div className="flex items-center justify-between rounded-2xl border border-[#6DBE45]/20 bg-white/70 px-4 py-3">
+                  <div>
+                    <p className="text-sm font-medium text-[#2D2D2D]">No replies</p>
+                    <p className="text-xs text-gray-500">Declines and not interested</p>
+                  </div>
+                  <p className="text-xl font-bold text-[#2D2D2D]">{track.no}</p>
+                </div>
+                <div className="flex items-center justify-between rounded-2xl border border-[#6DBE45]/20 bg-white/70 px-4 py-3">
+                  <div>
+                    <p className="text-sm font-medium text-[#2D2D2D]">Manual E4</p>
+                    <p className="text-xs text-gray-500">Outside the main automated path</p>
+                  </div>
+                  <p className="text-xl font-bold text-[#2D2D2D]">{track.e4}</p>
+                </div>
+              </div>
+            </div>
           </div>
         </section>
       </div>
