@@ -38,14 +38,15 @@ const TRACKS: Record<'all' | 'coffee' | 'gym', TrackData> = {
     e4: 5,
     tech: 5,
     drop1: [
+      { label: 'Positive reply', count: 2, color: '#6DBE45' },
       { label: 'Bounced', count: 3, color: '#F59E0B' },
       { label: 'Delivery issue', count: 1, color: '#F59E0B' },
       { label: 'Email updated', count: 1, color: '#F59E0B' },
     ],
-    drop2: [{ label: 'Replied no', count: 8, color: '#F87171' }],
+    drop2: [{ label: 'Declined / not interested', count: 8, color: '#F87171' }],
     drop3: [
-      { label: 'Replied yes', count: 3, color: '#6DBE45' },
-      { label: 'Replied no', count: 1, color: '#F87171' },
+      { label: 'Positive reply', count: 1, color: '#6DBE45' },
+      { label: 'Declined / not interested', count: 1, color: '#F87171' },
     ],
   },
   coffee: {
@@ -59,9 +60,12 @@ const TRACKS: Record<'all' | 'coffee' | 'gym', TrackData> = {
     tail: 58,
     e4: 1,
     tech: 1,
-    drop1: [{ label: 'Bounced', count: 1, color: '#F59E0B' }],
-    drop2: [{ label: 'Replied no', count: 5, color: '#F87171' }],
-    drop3: [{ label: 'Replied yes', count: 2, color: '#6DBE45' }],
+    drop1: [
+      { label: 'Positive reply', count: 1, color: '#6DBE45' },
+      { label: 'Bounced', count: 1, color: '#F59E0B' },
+    ],
+    drop2: [{ label: 'Declined / not interested', count: 5, color: '#F87171' }],
+    drop3: [{ label: 'Positive reply', count: 1, color: '#6DBE45' }],
   },
   gym: {
     label: 'Gym',
@@ -75,15 +79,13 @@ const TRACKS: Record<'all' | 'coffee' | 'gym', TrackData> = {
     e4: 4,
     tech: 4,
     drop1: [
+      { label: 'Positive reply', count: 1, color: '#6DBE45' },
       { label: 'Bounced', count: 2, color: '#F59E0B' },
       { label: 'Delivery issue', count: 1, color: '#F59E0B' },
       { label: 'Email updated', count: 1, color: '#F59E0B' },
     ],
-    drop2: [{ label: 'Replied no', count: 3, color: '#F87171' }],
-    drop3: [
-      { label: 'Replied yes', count: 1, color: '#6DBE45' },
-      { label: 'Replied no', count: 1, color: '#F87171' },
-    ],
+    drop2: [{ label: 'Declined / not interested', count: 3, color: '#F87171' }],
+    drop3: [{ label: 'Declined / not interested', count: 1, color: '#F87171' }],
   },
 }
 
