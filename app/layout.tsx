@@ -12,6 +12,7 @@ const navLinks = [
   { href: '/war-room', label: '🐕 War Room' },
   { href: '/journey', label: 'Journey' },
   { href: '/activity', label: '🔴 Activity' },
+  { href: '/brandtrack', label: '📈 BrandTrack' },
   { href: '/agents', label: '🤖 Agents' },
   { href: '/research/polsia', label: '📊 Research' },
   { href: '/daily-log', label: 'Daily Log' },
