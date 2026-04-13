@@ -32,22 +32,20 @@ const TRACKS: Record<'all' | 'coffee' | 'gym', TrackData> = {
     yes: 3,
     no: 9,
     e1: 147,
-    e2: 142,
-    e3: 134,
+    e2: 137,
+    e3: 131,
     tail: 130,
     e4: 5,
     tech: 5,
     drop1: [
       { label: 'Positive reply', count: 2, color: '#6DBE45' },
+      { label: 'Declined / not interested', count: 3, color: '#F87171' },
       { label: 'Bounced', count: 3, color: '#F59E0B' },
       { label: 'Delivery issue', count: 1, color: '#F59E0B' },
       { label: 'Email updated', count: 1, color: '#F59E0B' },
     ],
-    drop2: [{ label: 'Declined / not interested', count: 8, color: '#F87171' }],
-    drop3: [
-      { label: 'Positive reply', count: 1, color: '#6DBE45' },
-      { label: 'Declined / not interested', count: 1, color: '#F87171' },
-    ],
+    drop2: [{ label: 'Declined / not interested', count: 6, color: '#F87171' }],
+    drop3: [{ label: 'Positive reply', count: 1, color: '#6DBE45' }],
   },
   coffee: {
     label: 'Coffee',
@@ -55,16 +53,17 @@ const TRACKS: Record<'all' | 'coffee' | 'gym', TrackData> = {
     yes: 2,
     no: 5,
     e1: 66,
-    e2: 65,
-    e3: 60,
+    e2: 63,
+    e3: 59,
     tail: 58,
     e4: 1,
     tech: 1,
     drop1: [
       { label: 'Positive reply', count: 1, color: '#6DBE45' },
+      { label: 'Declined / not interested', count: 1, color: '#F87171' },
       { label: 'Bounced', count: 1, color: '#F59E0B' },
     ],
-    drop2: [{ label: 'Declined / not interested', count: 5, color: '#F87171' }],
+    drop2: [{ label: 'Declined / not interested', count: 4, color: '#F87171' }],
     drop3: [{ label: 'Positive reply', count: 1, color: '#6DBE45' }],
   },
   gym: {
@@ -73,19 +72,20 @@ const TRACKS: Record<'all' | 'coffee' | 'gym', TrackData> = {
     yes: 1,
     no: 4,
     e1: 81,
-    e2: 77,
-    e3: 74,
+    e2: 74,
+    e3: 72,
     tail: 72,
     e4: 4,
     tech: 4,
     drop1: [
       { label: 'Positive reply', count: 1, color: '#6DBE45' },
+      { label: 'Declined / not interested', count: 2, color: '#F87171' },
       { label: 'Bounced', count: 2, color: '#F59E0B' },
       { label: 'Delivery issue', count: 1, color: '#F59E0B' },
       { label: 'Email updated', count: 1, color: '#F59E0B' },
     ],
-    drop2: [{ label: 'Declined / not interested', count: 3, color: '#F87171' }],
-    drop3: [{ label: 'Declined / not interested', count: 1, color: '#F87171' }],
+    drop2: [{ label: 'Declined / not interested', count: 2, color: '#F87171' }],
+    drop3: [],
   },
 }
 
@@ -211,13 +211,12 @@ export default function BrandTrackPage() {
           </div>
         </div>
 
-        <section className="mb-6 grid gap-3 md:grid-cols-2 xl:grid-cols-5">
+        <section className="mb-6 grid gap-3 md:grid-cols-2 xl:grid-cols-4">
           {[
             { label: 'Leads', value: track.total, note: 'Active tracked leads' },
             { label: 'Yes', value: track.yes, note: pct(track.yes, track.total) + ' of leads' },
             { label: 'No', value: track.no, note: pct(track.no, track.total) + ' of leads' },
             { label: 'No answer after E3', value: track.tail, note: pct(track.tail, track.total) + ' of leads' },
-            { label: 'Manual E4', value: track.e4, note: 'Outside main path' },
           ].map(item => (
             <div key={item.label} className="rounded-[28px] border border-gray-200 bg-white p-5 shadow-sm md:p-6">
               <p className="mb-2 text-sm font-medium text-gray-500">{item.label}</p>
@@ -330,13 +329,6 @@ export default function BrandTrackPage() {
                     <p className="text-xs text-gray-500">Declines and not interested</p>
                   </div>
                   <p className="text-xl font-bold text-[#2D2D2D]">{track.no}</p>
-                </div>
-                <div className="flex items-center justify-between rounded-2xl border border-[#6DBE45]/20 bg-white/70 px-4 py-3">
-                  <div>
-                    <p className="text-sm font-medium text-[#2D2D2D]">Manual E4</p>
-                    <p className="text-xs text-gray-500">Outside the main automated path</p>
-                  </div>
-                  <p className="text-xl font-bold text-[#2D2D2D]">{track.e4}</p>
                 </div>
               </div>
             </div>
