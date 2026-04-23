@@ -2,7 +2,7 @@
 
 import dynamic from 'next/dynamic'
 import '@excalidraw/excalidraw/index.css'
-import { useEffect, useRef, useState } from 'react'
+import { Component, useEffect, useRef, useState, type ChangeEvent, type ReactNode } from 'react'
 
 const Excalidraw = dynamic(
   async () => (await import('@excalidraw/excalidraw')).Excalidraw,
@@ -62,6 +62,43 @@ function normalizeScene(input: any) {
   }
 }
 
+class NativeExcalidrawBoundary extends Component<
+  { children: ReactNode; onError: (message: string) => void },
+  { error: string | null }
+> {
+  state = { error: null }
+
+  static getDerivedStateFromError(error: any) {
+    return { error: String(error?.message || error || 'Unknown Excalidraw error') }
+  }
+
+  componentDidCatch(error: any) {
+    const message = String(error?.message || error || 'Unknown Excalidraw error')
+    console.error('Native Excalidraw crashed:', error)
+    this.props.onError(message)
+  }
+
+  render() {
+    if (this.state.error) {
+      return (
+        <div className="flex h-full min-h-[60vh] flex-col bg-slate-950">
+          <div className="border-b border-amber-500/20 bg-amber-500/10 px-4 py-3 text-sm text-amber-100">
+            Native Excalidraw crashed on this stack. Falling back to the raw app so the page stays usable.
+            <div className="mt-1 break-all font-mono text-xs text-amber-200/90">{this.state.error}</div>
+          </div>
+          <iframe
+            src="/excalidraw-app.html"
+            title="Pepe Excalidraw fallback"
+            className="min-h-0 w-full flex-1 border-0"
+          />
+        </div>
+      )
+    }
+
+    return this.props.children
+  }
+}
+
 export default function ExcalidrawPage() {
   const apiRef = useRef<any>(null)
   const [mounted, setMounted] = useState(false)
@@ -69,6 +106,7 @@ export default function ExcalidrawPage() {
   const [scene, setScene] = useState<any>(EMPTY_SCENE)
   const [status, setStatus] = useState('Ready')
   const [error, setError] = useState('')
+  const [nativeCrash, setNativeCrash] = useState('')
 
   useEffect(() => {
     setMounted(true)
@@ -157,7 +195,7 @@ export default function ExcalidrawPage() {
     setStatus('Downloaded .excalidraw.json')
   }
 
-  async function importScene(event: React.ChangeEvent<HTMLInputElement>) {
+  async function importScene(event: ChangeEvent<HTMLInputElement>) {
     const file = event.target.files?.[0]
     if (!file) return
 
@@ -241,29 +279,36 @@ export default function ExcalidrawPage() {
           </div>
 
           <div className="border-t border-white/10 px-4 py-3 text-sm text-slate-400">
-            <strong className={error ? 'text-red-400' : 'text-emerald-400'}>
-              {error ? 'Error' : 'Status'}
+            <strong className={error || nativeCrash ? 'text-red-400' : 'text-emerald-400'}>
+              {error || nativeCrash ? 'Error' : 'Status'}
             </strong>{' '}
-            {error || status}
+            {error || nativeCrash || status}
           </div>
         </div>
 
         <div className="min-h-0">
           <div className="h-full w-full [&_.excalidraw]:h-full [&_.excalidraw]:w-full">
             {mounted ? (
-              <Excalidraw
-                excalidrawAPI={(api) => {
-                  apiRef.current = api
-                  if (scene.elements.length > 0) {
-                    api.updateScene(scene)
-                  }
+              <NativeExcalidrawBoundary
+                onError={(message) => {
+                  setNativeCrash(message)
+                  setStatus('Native embed failed, fallback loaded')
                 }}
-                initialData={scene as any}
-                theme="dark"
-                onChange={(elements: readonly any[], appState: any, files: any) => {
-                  setScene({ elements: [...elements], appState, files })
-                }}
-              />
+              >
+                <Excalidraw
+                  excalidrawAPI={(api) => {
+                    apiRef.current = api
+                    if (scene.elements.length > 0) {
+                      api.updateScene(scene)
+                    }
+                  }}
+                  initialData={scene as any}
+                  theme="dark"
+                  onChange={(elements: readonly any[], appState: any, files: any) => {
+                    setScene({ elements: [...elements], appState, files })
+                  }}
+                />
+              </NativeExcalidrawBoundary>
             ) : null}
           </div>
         </div>
