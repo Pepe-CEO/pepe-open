@@ -1,0 +1,369 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pepe Excalidraw Studio</title>
+  <link rel="stylesheet" href="https://esm.sh/@excalidraw/excalidraw/dist/excalidraw.min.css" />
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #020617;
+      --panel: rgba(15, 23, 42, 0.94);
+      --text: #e5e7eb;
+      --muted: #94a3b8;
+      --border: #1f2937;
+      --good: #22c55e;
+      --bad: #f87171;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      background: radial-gradient(circle at top, #0f172a, #020617 50%);
+      color: var(--text);
+      height: 100vh;
+      overflow: hidden;
+    }
+    #app { height: 100vh; }
+    .shell {
+      display: grid;
+      grid-template-columns: 420px 1fr;
+      gap: 12px;
+      height: 100vh;
+      padding: 12px;
+    }
+    .panel {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      overflow: hidden;
+      box-shadow: 0 18px 50px rgba(0,0,0,0.35);
+      min-height: 0;
+    }
+    .sidebar {
+      display: flex;
+      flex-direction: column;
+      min-height: 0;
+    }
+    .sidebar-header {
+      padding: 18px 18px 10px;
+      border-bottom: 1px solid var(--border);
+    }
+    .sidebar-header h1 {
+      margin: 0 0 6px;
+      font-size: 22px;
+    }
+    .sidebar-header p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.45;
+      font-size: 14px;
+    }
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      padding: 14px 18px;
+      border-bottom: 1px solid var(--border);
+    }
+    button, .file-label {
+      border: 1px solid #334155;
+      background: #111827;
+      color: var(--text);
+      border-radius: 10px;
+      padding: 10px 12px;
+      font-size: 13px;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    button.primary {
+      background: linear-gradient(135deg, #0ea5e9, #2563eb);
+      border: none;
+      font-weight: 700;
+    }
+    button:hover, .file-label:hover { filter: brightness(1.08); }
+    textarea {
+      width: 100%;
+      flex: 1;
+      resize: none;
+      border: none;
+      outline: none;
+      background: transparent;
+      color: var(--text);
+      padding: 18px;
+      font: 13px/1.5 ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      min-height: 240px;
+    }
+    .hint {
+      padding: 14px 18px;
+      color: var(--muted);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      font-size: 13px;
+      line-height: 1.5;
+    }
+    .status {
+      padding: 12px 18px 16px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.45;
+    }
+    .status strong.ok { color: var(--good); }
+    .status strong.err { color: var(--bad); }
+    .canvas-wrap {
+      position: relative;
+      min-width: 0;
+      min-height: 0;
+    }
+    .canvas-head {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      z-index: 5;
+      background: rgba(2, 6, 23, 0.86);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 10px 12px;
+      backdrop-filter: blur(10px);
+      max-width: 460px;
+    }
+    .canvas-head b { display: block; margin-bottom: 4px; }
+    .canvas-head span { color: var(--muted); font-size: 13px; line-height: 1.4; display: block; }
+    input[type="file"] { display: none; }
+    @media (max-width: 980px) {
+      .shell { grid-template-columns: 1fr; grid-template-rows: 46vh 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div id="app"></div>
+  <script type="module">
+    import React, { useEffect, useRef, useState } from 'https://esm.sh/react@18';
+    import { createRoot } from 'https://esm.sh/react-dom@18/client';
+    import { Excalidraw, convertToExcalidrawElements } from 'https://esm.sh/@excalidraw/excalidraw?bundle';
+    import { parseMermaidToExcalidraw } from 'https://esm.sh/@excalidraw/mermaid-to-excalidraw?bundle';
+
+    const STORAGE_KEY_MERMAID = 'pepe-excalidraw-mermaid';
+    const STORAGE_KEY_SCENE = 'pepe-excalidraw-scene';
+    const SAMPLE = `flowchart TD
+    A[User asks for diagram] --> B[Pepe writes Mermaid]
+    B --> C[Skill generates Excalidraw JSON]
+    C --> D[Site opens editable drawing]
+    D --> E[Alex reviews]
+    E --> F{Needs changes?}
+    F -- Yes --> B
+    F -- No --> G[Diagram ready]`;
+
+    function download(filename, content, type = 'application/json') {
+      const blob = new Blob([content], { type });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+    }
+
+    function readFile(file) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = reject;
+        reader.readAsText(file);
+      });
+    }
+
+    function safeParse(json) {
+      try { return JSON.parse(json); } catch { return null; }
+    }
+
+    function App() {
+      const apiRef = useRef(null);
+      const [mermaid, setMermaid] = useState(localStorage.getItem(STORAGE_KEY_MERMAID) || SAMPLE);
+      const [status, setStatus] = useState('Ready');
+      const [error, setError] = useState('');
+      const [scene, setScene] = useState(() => {
+        const saved = safeParse(localStorage.getItem(STORAGE_KEY_SCENE) || '');
+        return saved || {
+          elements: [],
+          files: {},
+          appState: {
+            theme: 'dark',
+            viewBackgroundColor: '#0f172a',
+          },
+        };
+      });
+
+      useEffect(() => {
+        localStorage.setItem(STORAGE_KEY_MERMAID, mermaid);
+      }, [mermaid]);
+
+      useEffect(() => {
+        localStorage.setItem(STORAGE_KEY_SCENE, JSON.stringify(scene));
+      }, [scene]);
+
+      async function renderDiagram() {
+        setStatus('Rendering Mermaid into Excalidraw...');
+        setError('');
+        try {
+          const { elements, files } = await parseMermaidToExcalidraw(mermaid, {
+            themeVariables: { fontSize: '18px' },
+            flowchart: { curve: 'linear' },
+          });
+          const nextScene = {
+            elements: convertToExcalidrawElements(elements),
+            files,
+            appState: {
+              theme: 'dark',
+              viewBackgroundColor: '#0f172a',
+              currentItemEndArrowhead: 'arrow',
+            },
+          };
+          setScene(nextScene);
+          if (apiRef.current) {
+            apiRef.current.updateScene(nextScene);
+            apiRef.current.scrollToContent(nextScene.elements, { fitToContent: true });
+          }
+          setStatus(`Rendered ${nextScene.elements.length} elements.`);
+        } catch (err) {
+          console.error(err);
+          setError(String(err?.message || err));
+          setStatus('Render failed');
+        }
+      }
+
+      function resetSample() {
+        setMermaid(SAMPLE);
+        setStatus('Sample restored');
+        setError('');
+      }
+
+      function blankScene() {
+        const nextScene = {
+          elements: [],
+          files: {},
+          appState: { theme: 'dark', viewBackgroundColor: '#0f172a' },
+        };
+        setScene(nextScene);
+        if (apiRef.current) apiRef.current.updateScene(nextScene);
+        setStatus('Blank scene loaded');
+        setError('');
+      }
+
+      function exportScene() {
+        const payload = {
+          type: 'excalidraw',
+          version: 2,
+          source: 'https://open.meetpepe.com/excalidraw',
+          elements: scene.elements || [],
+          appState: scene.appState || {},
+          files: scene.files || {},
+        };
+        download('diagram.excalidraw.json', JSON.stringify(payload, null, 2));
+        setStatus('Downloaded .excalidraw.json');
+      }
+
+      async function importExcalidraw(event) {
+        const file = event.target.files?.[0];
+        if (!file) return;
+        try {
+          const raw = await readFile(file);
+          const parsed = JSON.parse(String(raw));
+          if (parsed?.type !== 'excalidraw' || !Array.isArray(parsed?.elements)) {
+            throw new Error('This file does not look like an Excalidraw scene.');
+          }
+          const nextScene = {
+            elements: parsed.elements || [],
+            files: parsed.files || {},
+            appState: {
+              theme: 'dark',
+              viewBackgroundColor: '#0f172a',
+              ...(parsed.appState || {}),
+            },
+          };
+          setScene(nextScene);
+          if (apiRef.current) {
+            apiRef.current.updateScene(nextScene);
+            apiRef.current.scrollToContent(nextScene.elements, { fitToContent: true });
+          }
+          setStatus(`Imported ${file.name}`);
+          setError('');
+        } catch (err) {
+          console.error(err);
+          setError(String(err?.message || err));
+          setStatus('Import failed');
+        } finally {
+          event.target.value = '';
+        }
+      }
+
+      useEffect(() => {
+        if (!scene.elements?.length) renderDiagram();
+      }, []);
+
+      const statusTone = error ? 'err' : 'ok';
+
+      return React.createElement('div', { className: 'shell' },
+        React.createElement('div', { className: 'panel sidebar' },
+          React.createElement('div', { className: 'sidebar-header' },
+            React.createElement('h1', null, 'Pepe Excalidraw Studio'),
+            React.createElement('p', null, 'A real web page on open.meetpepe.com for Mermaid → Excalidraw editing, not Canvas.')
+          ),
+          React.createElement('div', { className: 'toolbar' },
+            React.createElement('button', { className: 'primary', onClick: renderDiagram }, 'Render Mermaid'),
+            React.createElement('button', { onClick: resetSample }, 'Load sample'),
+            React.createElement('button', { onClick: blankScene }, 'Blank scene'),
+            React.createElement('button', { onClick: exportScene }, 'Download .excalidraw'),
+            React.createElement('label', { className: 'file-label' },
+              'Import .excalidraw',
+              React.createElement('input', {
+                type: 'file',
+                accept: '.json,.excalidraw,.excalidraw.json,application/json',
+                onChange: importExcalidraw,
+              })
+            )
+          ),
+          React.createElement('textarea', {
+            value: mermaid,
+            onChange: (e) => setMermaid(e.target.value),
+            spellCheck: false,
+            placeholder: 'Paste Mermaid here...'
+          }),
+          React.createElement('div', { className: 'hint' },
+            'Use the Excalidraw menu on the right to export PNG or SVG once the scene is loaded.'
+          ),
+          React.createElement('div', { className: 'status' },
+            React.createElement('strong', { className: statusTone }, error ? 'Error' : 'Status'),
+            ' ',
+            error ? error : status,
+            React.createElement('div', { style: { marginTop: '8px' } }, 'The current scene is kept in local storage.')
+          )
+        ),
+        React.createElement('div', { className: 'panel canvas-wrap' },
+          React.createElement('div', { className: 'canvas-head' },
+            React.createElement('b', null, 'Ready to edit'),
+            React.createElement('span', null, 'Render Mermaid, tweak it manually, import an existing .excalidraw scene, then export PNG/SVG from the Excalidraw menu.')
+          ),
+          React.createElement(Excalidraw, {
+            excalidrawAPI: (api) => {
+              apiRef.current = api;
+              if (api && scene.elements?.length) api.updateScene(scene);
+            },
+            initialData: scene,
+            theme: 'dark',
+            onChange: (elements, appState, files) => setScene({ elements, appState, files }),
+          })
+        )
+      );
+    }
+
+    createRoot(document.getElementById('app')).render(React.createElement(App));
+  </script>
+</body>
+</html>

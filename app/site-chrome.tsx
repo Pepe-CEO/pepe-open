@@ -13,13 +13,15 @@ const navLinks = [
   { href: '/research/polsia', label: '📊 Research' },
   { href: '/daily-log', label: 'Daily Log' },
   { href: '/product', label: 'The Product' },
+  { href: '/excalidraw', label: '✏️ Excalidraw' },
 ]
 
 export function SiteChrome({ children }: { children: React.ReactNode }) {
   const pathname = usePathname()
   const isBrandtrack = pathname?.startsWith('/brandtrack')
+  const isFullscreenTool = pathname?.startsWith('/excalidraw')
 
-  if (isBrandtrack) {
+  if (isBrandtrack || isFullscreenTool) {
     return <main className="min-h-screen">{children}</main>
   }
 
